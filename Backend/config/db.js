@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-export async function connectDB(uri) {
+export async function connectDB(url) {
   try {
-    await mongoose.connect(uri, { dbName: 'linkedin_clone' })
+    await mongoose.connect(url, { dbName: 'linkedin_clone' })
     console.log('MongoDB connected')
   } catch (err) {
     console.error('MongoDB connection error:', err.message)

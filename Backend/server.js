@@ -24,6 +24,7 @@ const __dirname = path.dirname(__filename);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
+app.get("/", (req, res) => res.send("✅ Backend server is running successfully!"));
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
 app.get("/api/users/me", auth, me);
@@ -32,11 +33,12 @@ app.get("/api/health", (_, res) => res.json({ ok: true }));
 
 // DB + Start
 const PORT = process.env.PORT || 5000;
-connectDB(process.env.MONGO_URL).then(() =>
+connectDB(process.env.MONGO_URI).then(() =>
   app.listen(PORT, () =>
     console.log(`✅ Server running on http://localhost:${PORT}`)
   )
 );
+
 
 
 

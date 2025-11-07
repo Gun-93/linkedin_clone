@@ -1,0 +1,44 @@
+import express from "express";
+import cors from "cors";
+import morgan from "morgan";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import { connectDB } from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
+import { auth } from "./middleware/auth.js";
+import { me } from "./controllers/authController.js";
+
+dotenv.config();
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(morgan("dev"));
+app.use(cors({ origin: "http://localhost:5173" }));
+
+// Static uploads
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/posts", postRoutes);
+app.get("/api/users/me", auth, me);
+
+app.get("/api/health", (_, res) => res.json({ ok: true }));
+
+// DB + Start
+const PORT = process.env.PORT || 5000;
+connectDB(process.env.MONGO_URI).then(() =>
+  app.listen(PORT, () =>
+    console.log(`✅ Server running on http://localhost:${PORT}`)
+  )
+);
+
+
+
+
+

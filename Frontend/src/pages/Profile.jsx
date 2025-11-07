@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import api from "../lib/api";
 export default function Profile() {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);

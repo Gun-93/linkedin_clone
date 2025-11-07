@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../lib/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,10 +15,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      const res = await api.post("/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
       setMessage("✅ Login successful! Redirecting...");
       setTimeout(() => navigate("/feed"), 1500);
@@ -39,9 +36,7 @@ export default function Login() {
         <h2 className="text-3xl font-bold text-center text-blue-600 mb-2">
           Welcome Back
         </h2>
-        <p className="text-gray-500 text-center mb-6">
-          Please login to continue
-        </p>
+        <p className="text-gray-500 text-center mb-6">Please login to continue</p>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <input
@@ -49,37 +44,38 @@ export default function Login() {
             placeholder="Email"
             className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
             onChange={(e) => setEmail(e.target.value)}
-            value={email}
             required
-            autoComplete="email"/>
-
+          />
           <input
             type="password"
             placeholder="Password"
             className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
             onChange={(e) => setPassword(e.target.value)}
-            value={password}
             required
-            autoComplete="current-password"/>
+          />
 
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 text-white font-semibold rounded-lg transition ${loading
+            className={`w-full py-3 text-white font-semibold rounded-lg transition ${
+              loading
                 ? "bg-blue-300 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700"
-              }`}>
+            }`}
+          >
             {loading ? "Logging in..." : "Login"}
           </button>
 
           {message && (
             <p
-              className={`text-center text-sm mt-3 ${message.startsWith("✅")
+              className={`text-center text-sm mt-3 ${
+                message.startsWith("✅")
                   ? "text-green-600"
                   : message.startsWith("⚠️")
-                    ? "text-yellow-600"
-                    : "text-red-600"
-                }`}>
+                  ? "text-yellow-600"
+                  : "text-red-600"
+              }`}
+            >
               {message}
             </p>
           )}
@@ -89,7 +85,8 @@ export default function Login() {
           Don’t have an account?{" "}
           <span
             onClick={() => navigate("/signup")}
-            className="text-blue-600 font-medium hover:underline cursor-pointer">
+            className="text-blue-600 font-medium hover:underline cursor-pointer"
+          >
             Sign up
           </span>
         </p>
@@ -97,5 +94,3 @@ export default function Login() {
     </div>
   );
 }
-
-

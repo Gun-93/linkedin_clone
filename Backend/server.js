@@ -20,7 +20,7 @@ app.use(morgan("dev"));
 // ✅ Allow both local and deployed frontend
 const allowedOrigins = [
   "http://localhost:5173", // local dev
-  "https://your-netlify-app-name.netlify.app", // replace with your real netlify domain
+  "https://clonegfvg.netlify.app", // replace with your real netlify domain
 ];
 
 app.use(

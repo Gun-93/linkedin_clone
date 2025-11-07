@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import api from "../lib/api"; 
+
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();

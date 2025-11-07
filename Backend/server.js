@@ -33,7 +33,7 @@ app.get("/api/health", (_, res) => res.json({ ok: true }));
 
 // DB + Start
 const PORT = process.env.PORT || 5000;
-connectDB(process.env.MONGO_URI).then(() =>
+connectDB(process.env.MONGO_URL).then(() =>
   app.listen(PORT, () =>
     console.log(`✅ Server running on http://localhost:${PORT}`)
   )

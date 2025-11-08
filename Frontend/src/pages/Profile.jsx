@@ -71,7 +71,8 @@ export default function Profile() {
 
               {post.imageUrl && (
                 <img
-                  src={`${import.meta.env.VITE_API_BASE_URL}${post.imageUrl}`}
+                 src={`${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}${post.imageUrl}`}
+
                   alt="Post"
                   className="rounded-lg max-h-64 object-cover mb-3"
                 />

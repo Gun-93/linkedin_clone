@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import api from "../lib/api";
+
 export default function Profile() {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
-  const API = "http://localhost:5000/api";
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios
-      .get(`${API}/users/me`, { headers: { Authorization: `Bearer ${token}` } })
+    // ✅ Fetch user info
+    api
+      .get("/users/me")
       .then((res) => setUser(res.data))
       .catch((err) => console.error("User fetch failed:", err));
 
-    axios
-      .get(`${API}/posts/user`, { headers: { Authorization: `Bearer ${token}` } })
+    // ✅ Fetch user posts
+    api
+      .get("/posts/user")
       .then((res) => setPosts(res.data))
       .catch((err) =>
         console.error("User posts fetch failed:", err.response?.data || err.message)
@@ -21,7 +22,11 @@ export default function Profile() {
   }, []);
 
   if (!user)
-    return <p className="text-center mt-10 text-gray-500 animate-pulse">Loading profile...</p>;
+    return (
+      <p className="text-center mt-10 text-gray-500 animate-pulse">
+        Loading profile...
+      </p>
+    );
 
   return (
     <div className="max-w-2xl mx-auto mt-10 bg-white rounded-2xl shadow-lg p-8">
@@ -39,15 +44,17 @@ export default function Profile() {
           Joined:{" "}
           {user.createdAt
             ? new Date(user.createdAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
             : "N/A"}
         </p>
       </div>
 
-      <h3 className="text-2xl font-semibold text-gray-700 mb-3 border-b pb-2">My Posts</h3>
+      <h3 className="text-2xl font-semibold text-gray-700 mb-3 border-b pb-2">
+        My Posts
+      </h3>
 
       {posts.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">
@@ -64,9 +71,10 @@ export default function Profile() {
 
               {post.imageUrl && (
                 <img
-                  src={`http://localhost:5000${post.imageUrl}`}
+                  src={`${import.meta.env.VITE_API_BASE_URL}${post.imageUrl}`}
                   alt="Post"
-                  className="rounded-lg max-h-64 object-cover mb-3"/>
+                  className="rounded-lg max-h-64 object-cover mb-3"
+                />
               )}
 
               <p className="text-xs text-gray-500">
@@ -79,6 +87,7 @@ export default function Profile() {
     </div>
   );
 }
+
 
 
 

@@ -124,7 +124,7 @@ export default function Feed() {
 
             {post.imageUrl && (
               <img
-                src={`${import.meta.env.VITE_API_BASE_URL}${post.imageUrl}`}
+                src={`${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}${post.imageUrl}`}
                 alt="Post"
                 className="rounded-xl max-h-72 w-full object-cover mb-3"
               />

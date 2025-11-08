@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import api from "../lib/api";
+import api from "../lib/api"; // ✅ use your configured Axios instance
+
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -14,10 +14,9 @@ export default function Navbar() {
       return;
     }
 
-    axios
-      .get("/users/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    // ✅ use api instead of axios
+    api
+      .get("/users/me")
       .then((res) => setUser(res.data))
       .catch(() => setUser(null));
   }, [location.pathname]);
@@ -32,7 +31,9 @@ export default function Navbar() {
     <nav className="bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md px-6 py-3 flex justify-between items-center text-white">
       <h1
         onClick={() => navigate("/feed")}
-        className="font-bold text-xl cursor-pointer hover:scale-105 transition-transform">LinkedIn Clone
+        className="font-bold text-xl cursor-pointer hover:scale-105 transition-transform"
+      >
+        LinkedIn Clone
       </h1>
 
       <div className="flex items-center space-x-5">
@@ -43,12 +44,14 @@ export default function Navbar() {
             </span>
             <button
               onClick={() => navigate("/profile")}
-              className="hover:bg-white/20 px-3 py-1 rounded-md transition">
+              className="hover:bg-white/20 px-3 py-1 rounded-md transition"
+            >
               Profile
             </button>
             <button
               onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded-md transition">
+              className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded-md transition"
+            >
               Logout
             </button>
           </>
@@ -56,12 +59,14 @@ export default function Navbar() {
           <>
             <Link
               to="/login"
-              className="hover:bg-white/20 px-3 py-1 rounded-md transition">
+              className="hover:bg-white/20 px-3 py-1 rounded-md transition"
+            >
               Login
             </Link>
             <Link
               to="/signup"
-              className="bg-white text-blue-600 font-semibold px-3 py-1 rounded-md hover:bg-gray-100 transition">
+              className="bg-white text-blue-600 font-semibold px-3 py-1 rounded-md hover:bg-gray-100 transition"
+            >
               Signup
             </Link>
           </>
@@ -70,6 +75,7 @@ export default function Navbar() {
     </nav>
   );
 }
+
 
 
 
